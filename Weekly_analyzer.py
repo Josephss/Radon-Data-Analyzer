@@ -90,18 +90,21 @@ def analyzer(obj):
             if row.strftime("%W") not in dummy_day:
                 dummy_day.append(row.strftime("%W"))
             count_two = count - 2
-            print(str(row) + " : " + str(obj[count_two]))
+            #print(str(row) + " : " + str(obj[count_two]))
             count_two = count_two + 1
             dummy_avg.append(obj[count_two])
         else:
             dummy_avg.append(obj[count_two+1])
-            print("avg: " + str(np.mean(dummy_avg)))
             avg_final.append(np.mean(dummy_avg)) # calculate the average
             dummy_max.append(np.max(dummy_avg)) # get the max value
             dummy_min.append(np.min(dummy_avg)) # get the min value
             error = (np.std(dummy_avg))/(np.sqrt(len(dummy_avg) - 1)) # get the error
             dummy_err.append(error)
             dummy_day.append(row.strftime("%W"))
+            print("avg: " + str(np.mean(dummy_avg)))
+            print("min: " + str(np.min(dummy_avg)))
+            print("max: " + str(np.max(dummy_avg)))
+            print("error: " + str(error))             
             del dummy_avg[:] #flush out existing data
             ind = dayye
             print("---------------------------- End day data -----------------------")
