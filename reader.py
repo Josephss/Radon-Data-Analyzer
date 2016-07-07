@@ -1,5 +1,5 @@
 #Author: Joseph Mammo | Joseph.mammo@coyotes.usd.edu
-#Project: Radon, Temperature, Air Pressure, and Humidity data analyzer; Analyzes daily, monthly and yearly average, min, max and average error for the aforementioned data.
+#Project: Radon, Temperature, Air Pressure, and Humidity data analyzer; Analyzes daily, monthly and yearly average, min, max and average error for the 4850 Davis Campus radon detector data.
 
 import openpyxl
 from datetime import datetime
@@ -108,10 +108,57 @@ def analyzer(obj):
     return
     
 # call the analyzer function
-print("** Analyzing data ...")
-analyzer(Air_Pressure)
+print("** Analyzing Radon Data ...")
+analyzer(Rn_hourly)
 
-print("** Writing analyzed data to 'data.csv' ...")
-with open('data.csv', 'w') as f:
+print("** Writing analyzed data to 'Rn.csv' ...")
+with open('Rn.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    
+print("** Flshing out older data ...")
+del avg_final[:]
+del dummy_day[:]
+del dummy_min[:]
+del dummy_max[:]
+del dummy_err[:]
+
+print("** Analyzing Temperature Data ...")
+analyzer(Temperature)
+
+print("** Writing analyzed data to 'Temperature.csv' ...")
+with open('Temperature.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    
+print("** Flshing out older data ...")
+del avg_final[:]
+del dummy_day[:]
+del dummy_min[:]
+del dummy_max[:]
+del dummy_err[:]
+
+print("** Analyzing Air Pressure Data ...")
+analyzer(Air_Pressure)
+
+print("** Writing analyzed data to 'Air_pressure.csv' ...")
+with open('Air_pressure.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    
+print("** Flshing out older data ...")
+del avg_final[:]
+del dummy_day[:]
+del dummy_min[:]
+del dummy_max[:]
+del dummy_err[:]
+
+print("** Analyzing Humidity Data ...")
+analyzer(Humidity)
+
+print("** Writing analyzed data to 'Humidity.csv' ...")
+with open('Humidity.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    
+print("** Data analysis completed!")
