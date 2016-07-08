@@ -1,5 +1,6 @@
 #Author: Joseph Mammo | Joseph.mammo@coyotes.usd.edu
 #Project: Radon, Temperature, Air Pressure, and Humidity data analyzer; Analyzes daily, monthly and yearly average, min, max and average error for the 4850 Davis Campus radon detector data.
+# Takes in an excel file, converts it consolidated data array and returns weeknumber, average, min value, max value, "error" and end date of the week
 
 import openpyxl
 from datetime import datetime
@@ -78,17 +79,23 @@ dummy_day = []
 dummy_min =[]
 dummy_max = []
 dummy_err = []
+dumyy_dummy = []
 
+# Takes in a consolidated data array and returns weeknumber, average, min value, max value, "error" and end date of the week
 def analyzer(obj):
     count = -1 
     ind = Date[0].isocalendar()[1]
     dummy_day.append(Date[0].strftime("%W"))
+    
+    dumyy_dummy.append(Date[0].strftime("%Y-%m-%d"))
     for row in Date:
         count = count + 1
         dayye = row.isocalendar()[1]  
         if(dayye == ind):
             if row.strftime("%W") not in dummy_day:
                 dummy_day.append(row.strftime("%W"))
+            #if row.strftime("%Y-%m-%d") not in dumyy_dummy:
+                #dumyy_dummy.append(row.strftime("%Y-%m-%d"))
             count_two = count - 2
             #print(str(row) + " : " + str(obj[count_two]))
             count_two = count_two + 1
@@ -101,13 +108,15 @@ def analyzer(obj):
             error = (np.std(dummy_avg))/(np.sqrt(len(dummy_avg) - 1)) # get the error
             dummy_err.append(error)
             dummy_day.append(row.strftime("%W"))
+            dumyy_dummy.append(row.strftime("%Y-%m-%d"))
+            print("week end date: " + str(row.strftime("%Y-%m-%d")))
             print("avg: " + str(np.mean(dummy_avg)))
             print("min: " + str(np.min(dummy_avg)))
             print("max: " + str(np.max(dummy_avg)))
             print("error: " + str(error))             
             del dummy_avg[:] #flush out existing data
             ind = dayye
-            print("---------------------------- End day data -----------------------")
+            print("---------------------------- End week data -----------------------")
     return
     
 # call the analyzer function
@@ -117,7 +126,7 @@ analyzer(Rn_hourly)
 print("** Writing analyzed data to 'Rn.csv' ...")
 with open('Rn.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err, dumyy_dummy))
     
 print("** Flshing out older data ...")
 del avg_final[:]
@@ -125,6 +134,7 @@ del dummy_day[:]
 del dummy_min[:]
 del dummy_max[:]
 del dummy_err[:]
+del dumyy_dummy[:]
 
 print("** Analyzing Temperature Data ...")
 analyzer(Temperature)
@@ -132,7 +142,7 @@ analyzer(Temperature)
 print("** Writing analyzed data to 'Temperature.csv' ...")
 with open('Temperature.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
 print("** Flshing out older data ...")
 del avg_final[:]
@@ -140,6 +150,7 @@ del dummy_day[:]
 del dummy_min[:]
 del dummy_max[:]
 del dummy_err[:]
+del dumyy_dummy[:]
 
 print("** Analyzing Air Pressure Data ...")
 analyzer(Air_Pressure)
@@ -147,7 +158,7 @@ analyzer(Air_Pressure)
 print("** Writing analyzed data to 'Air_pressure.csv' ...")
 with open('Air_pressure.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
 print("** Flshing out older data ...")
 del avg_final[:]
@@ -155,6 +166,7 @@ del dummy_day[:]
 del dummy_min[:]
 del dummy_max[:]
 del dummy_err[:]
+del dumyy_dummy[:]
 
 print("** Analyzing Humidity Data ...")
 analyzer(Humidity)
@@ -162,6 +174,6 @@ analyzer(Humidity)
 print("** Writing analyzed data to 'Humidity.csv' ...")
 with open('Humidity.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
 print("** Data analysis completed!")
