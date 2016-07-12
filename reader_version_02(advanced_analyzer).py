@@ -83,6 +83,7 @@ dummy_day = []
 dummy_min =[]
 dummy_max = []
 dummy_err = []
+dumyy_dummy = []
 
 def analyzer_daily(obj):
     count = -1 
@@ -143,19 +144,22 @@ def analyzer_monthly(obj):
             print("error: " + str(error))             
             del dummy_avg[:] #flush out existing data
             ind = dayye
-            print("---------------------------- End day data -----------------------")
+            print("---------------------------- End month data -----------------------")
     return
 
 def analyzer_weekly(obj):
     count = -1 
     ind = Date[0].isocalendar()[1]
     dummy_day.append(Date[0].strftime("%W"))
+    dumyy_dummy.append(Date[0].strftime("%Y-%m-%d"))
     for row in Date:
         count = count + 1
         dayye = row.isocalendar()[1]  
         if(dayye == ind):
             if row.strftime("%W") not in dummy_day:
                 dummy_day.append(row.strftime("%W"))
+            #if row.strftime("%Y-%m-%d") not in dumyy_dummy:
+                #dumyy_dummy.append(row.strftime("%Y-%m-%d"))
             count_two = count - 2
             #print(str(row) + " : " + str(obj[count_two]))
             count_two = count_two + 1
@@ -168,15 +172,26 @@ def analyzer_weekly(obj):
             error = (np.std(dummy_avg))/(np.sqrt(len(dummy_avg) - 1)) # get the error
             dummy_err.append(error)
             dummy_day.append(row.strftime("%W"))
+            dumyy_dummy.append(row.strftime("%Y-%m-%d"))
+            print("week end date: " + str(row.strftime("%Y-%m-%d")))
             print("avg: " + str(np.mean(dummy_avg)))
             print("min: " + str(np.min(dummy_avg)))
             print("max: " + str(np.max(dummy_avg)))
             print("error: " + str(error))             
             del dummy_avg[:] #flush out existing data
             ind = dayye
-            print("---------------------------- End day data -----------------------")
+            print("---------------------------- End week data -----------------------")
     return
 
+def flushout():
+    print("** Flshing out older data ...")
+    del avg_final[:]
+    del dummy_day[:]
+    del dummy_min[:]
+    del dummy_max[:]
+    del dummy_err[:]  
+    del dumyy_dummy[:]
+    return
 # call the analyzer functions
 
 print("** ANALYZING DAILY VALUES ...")
@@ -188,12 +203,7 @@ with open('Rn_daily.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Temperature Data ...")
 analyzer_daily(Temperature)
@@ -203,12 +213,7 @@ with open('Temperature_daily.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Air Pressure Data ...")
 analyzer_daily(Air_Pressure)
@@ -218,12 +223,7 @@ with open('Air_pressure_daily.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Humidity Data ...")
 analyzer_daily(Humidity)
@@ -233,12 +233,7 @@ with open('Humidity_daily.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** ANALYZING WEEKLY VALUES ...")
 print("** Analyzing Radon Data ...")
@@ -247,14 +242,9 @@ analyzer_weekly(Rn_hourly)
 print("** Writing analyzed data to 'Rn.csv' ...")
 with open('Rn_weekly.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Temperature Data ...")
 analyzer_weekly(Temperature)
@@ -262,14 +252,9 @@ analyzer_weekly(Temperature)
 print("** Writing analyzed data to 'Temperature.csv' ...")
 with open('Temperature_weekly.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Air Pressure Data ...")
 analyzer_weekly(Air_Pressure)
@@ -277,14 +262,9 @@ analyzer_weekly(Air_Pressure)
 print("** Writing analyzed data to 'Air_pressure.csv' ...")
 with open('Air_pressure_weekly.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Humidity Data ...")
 analyzer_weekly(Humidity)
@@ -292,14 +272,9 @@ analyzer_weekly(Humidity)
 print("** Writing analyzed data to 'Humidity.csv' ...")
 with open('Humidity_weekly.csv', 'w') as f:
     writer = csv.writer(f)
-    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
+    writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err,dumyy_dummy))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** ANALYZING MONTHLY VALUES ...")
 print("** Analyzing Radon Data ...")
@@ -310,12 +285,7 @@ with open('Rn_monthly.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Temperature Data ...")
 analyzer_monthly(Temperature)
@@ -325,12 +295,7 @@ with open('Temperature_monthly.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Air Pressure Data ...")
 analyzer_monthly(Air_Pressure)
@@ -340,12 +305,7 @@ with open('Air_pressure_monthly.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Analyzing Humidity Data ...")
 analyzer_monthly(Humidity)
@@ -355,11 +315,6 @@ with open('Humidity_monthly.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(dummy_day,avg_final,dummy_min,dummy_max,dummy_err))
     
-print("** Flshing out older data ...")
-del avg_final[:]
-del dummy_day[:]
-del dummy_min[:]
-del dummy_max[:]
-del dummy_err[:]
+flushout()
 
 print("** Data analysis completed!")
