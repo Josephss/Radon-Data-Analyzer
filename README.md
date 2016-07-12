@@ -1,7 +1,7 @@
 #Radon-Data-Analyzer
 ========
-Radon, Temperature, Air Pressure, and Humidity data analyzer; Analyzes daily, monthly and yearly average, min, max and average error for the 4850 Davis Campus radon detector data.
-*Takes in an excel file, converts it consolidated data array and returns weeknumber, average, min value, max value, "error" and end date of the week*
+Radon, Temperature, Air Pressure, and Humidity data analyzer; Analyzes daily, monthly and weekly average, min, max and average error for the 4850 Davis Campus radon detector data.
+
 
 Look how easy it is to use:
 
@@ -13,13 +13,17 @@ Look how easy it is to use:
 Features
 --------
 
-* Takes in an excel file, converts it consolidated data array and returns weeknumber, average, min value, max value, "error" and end date of the week radon, temperature, air pressure and humidity of the specified location.
+* reader_version_02(advanced_analyzer).py: takes in an excel file, converts it consolidated data array and returns analyzed daily, monthly and weekly average, min, max and average error for the 4850 Davis Campus radon detector data of the specified location.
+* Daily_analyer.py: takes in an excel file, converts it consolidated data array and returns analyzed daily,  average, min, max and average error for the 4850 Davis Campus radon detector data of the specified location.
+* Weekly_analyer.py: takes in an excel file, converts it consolidated data array and returns analyzed weekly average, min, max and average error for the 4850 Davis Campus radon detector data of the specified location.
+* Monthly_analyzer.py: takes in an excel file, converts it consolidated data array and returns analyzed monthly average, min, max and average error for the 4850 Davis Campus radon detector data of the specified location.
+
 
 
 Installation
 ------------
 
-Download 'reader_version_02(advanced_analyzer).py', specify "SURF-RadonTrends.xlsx" and execute the python script!
+Download 'reader_version_02(advanced_analyzer).py', 'Daily_analyer.py:', 'Weekly_analyer.py' or 'Monthly_analyzer.py', specify "SURF-RadonTrends.xlsx" and execute the desired python script!
 
 Contribute
 ----------
